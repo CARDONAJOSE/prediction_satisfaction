@@ -37,4 +37,4 @@ print(classification_report(y_test, y_pred))
 
 # save_path = "lineal_logistic_model.joblib"
 # Sauvegarde au chemin selon architecture
-joblib.dump('../models/lineal_logistic_model.pkl')
+joblib.dump(model, '../models/lineal_logistic_model.pkl')
