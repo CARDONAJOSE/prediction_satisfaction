@@ -1,0 +1,15 @@
+artifact_uri: file:///C:/Users/Jose%20Fabian%20Cardona/Desktop/Sas_simplon/plane_pipeline/mlruns/0/2ae1d03270854b62a800aa8cea14810d/artifacts
+end_time: 1736605993526
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: 2ae1d03270854b62a800aa8cea14810d
+run_name: useful-lamb-910
+run_uuid: 2ae1d03270854b62a800aa8cea14810d
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1736605993369
+status: 4
+tags: []
+user_id: Jose Fabian Cardona
