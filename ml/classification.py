@@ -3,11 +3,17 @@ from sklearn.neighbors import KNeighborsClassifier
 #from sklearn.model_selection import learning_curve
 from sklearn.metrics import accuracy_score, classification_report
 import matplotlib.pyplot as plt
-from .outils import data_load, timer
+from tools import timer, load_data
 import numpy as np
 import pandas as pd
 import mlflow
 import joblib
+import sys
+import os
+
+# Ajoute le chemin parent au système
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
 
 
 # # charge le dataset
@@ -17,7 +23,7 @@ import joblib
 # x = data[['Class_Business','Seat comfort','Type of Travel_Personal Travel', 'Cleanliness','Online boarding','Class_Eco','Inflight entertainment', 'Type of Travel_Business travel']]
 # y = data['Satisfaction']
 #data_load.load_data()
-x, y = data_load.load_data()
+x, y = load_data()
 # split le dataset en train et test 
 X_train, X_test, y_train, y_test = train_test_split(x, y, test_size=0.2, random_state=False)
 
