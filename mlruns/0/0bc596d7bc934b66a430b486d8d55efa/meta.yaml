@@ -1,0 +1,15 @@
+artifact_uri: file:///C:/Users/Jose%20Fabian%20Cardona/Desktop/Sas_simplon/plane_pipeline/mlruns/0/0bc596d7bc934b66a430b486d8d55efa/artifacts
+end_time: 1736787982356
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: 0bc596d7bc934b66a430b486d8d55efa
+run_name: spiffy-skink-414
+run_uuid: 0bc596d7bc934b66a430b486d8d55efa
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1736787603527
+status: 3
+tags: []
+user_id: Jose Fabian Cardona

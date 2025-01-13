@@ -1,0 +1,15 @@
+artifact_uri: file:///C:/Users/Jose%20Fabian%20Cardona/Desktop/Sas_simplon/plane_pipeline/mlruns/0/003b2e598e184e83b9105f98b13f8f12/artifacts
+end_time: 1736793873505
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: 003b2e598e184e83b9105f98b13f8f12
+run_name: brawny-newt-565
+run_uuid: 003b2e598e184e83b9105f98b13f8f12
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1736793872217
+status: 3
+tags: []
+user_id: Jose Fabian Cardona
