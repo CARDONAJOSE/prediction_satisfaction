@@ -97,7 +97,7 @@ with mlflow.start_run():
 
     if __name__ == "__main__":
         save_model(model_knn)
-        
+
 # Matriz de Confusión
 #   precision    recall  f1-score   support
 

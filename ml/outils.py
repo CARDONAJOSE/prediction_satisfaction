@@ -49,6 +49,5 @@ def timer(func):
 
 if __name__ == "__main__": 
     x, y = load_data()
-    timed_load_data = timer(load_data)
-    x, y = timed_load_data()
+    
       
