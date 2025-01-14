@@ -1,11 +1,11 @@
 from sklearn.ensemble import GradientBoostingClassifier
 from sklearn.metrics import confusion_matrix, precision_score, recall_score, f1_score, ConfusionMatrixDisplay
 from sklearn.model_selection import train_test_split
-from model_train import train_model
+from ml.train_evaluate import train_model
 from model_evaluate import evaluate_model
 from functools import wraps
 from outils import load_data
-from model_train import train_model
+from ml.train_evaluate import train_model
 from model_evaluate import evaluate_model
 import mlflow
 import time

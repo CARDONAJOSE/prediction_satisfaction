@@ -3,77 +3,42 @@ from sklearn.neighbors import KNeighborsClassifier
 from sklearn.metrics import accuracy_score, classification_report
 import matplotlib.pyplot as plt
 from outils import load_data
-from model_train import train_model
-from model_evaluate import evaluate_model
-from functools import wraps
-#from ..tools import save_model
-import time
+from train_evaluate import train_model, evaluate_model
+from save import save_model
+#from functools import wraps
 import numpy as np
 import pandas as pd
 import mlflow
-import joblib
 import sys
 import os
 
 # Ajoute le chemin parent au système
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+# sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-# Décorateur pour mesurer le temps d'exécution
-def timer(func):
-    @wraps(func)
-    def wrapper(*args, **kwargs):
-        debut = time.perf_counter()
-        resultat = func(*args, **kwargs)
-        fin = time.perf_counter()
-        duree = fin - debut
-        print(f"{func.__name__} a pris {duree:.4f} secondes")
-        return resultat
-    return wrapper
-
+# charge le dataset
 x, y = load_data()
+
 # split le dataset en train et test 
 X_train, X_test, y_train, y_test = train_test_split(x, y, test_size=0.2, random_state=False)
 
-# Démarrer une expérience MLflow
-with mlflow.start_run():
-
-    # definir la grille de parametres a tester
-    param_grid = {'n_neighbors': [3, 5, 7, 9, 10]}
-    # instanciation du model et entrainement
+# definir la grille de parametres a tester
+param_grid = {'n_neighbors': [3, 5, 7, 9, 10]}
  
-    print(12*"*")
-    
-    model_knn = train_model(X_train, y_train, param_grid)
-    accuracy, raport, y_pred = evaluate_model(train_model(X_train, y_train, param_grid))
-    mlflow.log_metric("accuracy", accuracy)
-    mlflow.log_params(raport)
-    mlflow.log_metric("precision", raport['macro avg']['precision'])
+print(12*"*")
 
-    # Mesurer le temps d'entrainement
-    #with timer.timeit("Entrainer le model"):
-# predictions et evaluation du model
+# instanciation du model et entrainement    
+model_knn = train_model(X_train, y_train, param_grid,KNeighborsClassifier() )
 
-# Sauvegarde au chemin selon architecture
-    
-    # def save_model(best_model_knn):
-    #     """
-    # Sauvegarde le modèle entraîné dans un fichier .pkl à l'emplacement
-    # ./models/classification_knn_model.pkl
+# prediction sur le jeu de test 
+accuracy, raport, y_pred = evaluate_model(X_test, y_test, model_knn)
+mlflow.log_metric("accuracy", accuracy)
+mlflow.log_params(raport)
+mlflow.log_metric("precision", raport['macro avg']['precision'])
 
-    # Parameters:
-    #     best_model_knn: le modèle entraîné
+# Sauvegarde au chemin selon architecture 
+save_model_knn = save_model(model_knn, filename='./models/model_knn.pkl')
+mlflow.sklearn.log_model(model_knn, "model_knn")
 
-    # Returns:
-    #     best_model_knn: le modèle sauvegardé
-    # """
-    #     saved_model = joblib.dump(best_model_knn, './models/classification_knn_model.pkl')
-    #     return saved_model
-    
-    #save_model_knn = save_model(model_knn)
-    mlflow.sklearn.log_model(model_knn, "model_knn")
-
-    # if __name__ == "__main__":
-    #     save_model(model_knn)
 
 # Matriz de Confusión
 #   precision    recall  f1-score   support
