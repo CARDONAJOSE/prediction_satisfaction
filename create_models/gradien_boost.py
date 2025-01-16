@@ -1,9 +1,18 @@
 from sklearn.ensemble import GradientBoostingClassifier
 from sklearn.metrics import confusion_matrix, precision_score, recall_score, f1_score, ConfusionMatrixDisplay
 from sklearn.model_selection import train_test_split
+<<<<<<< HEAD:create_models/gradien_boost.py
 from create_models.train_evaluate import  train_model, evaluate_model
 from outils import load_data
 from save import save_model
+=======
+from ml.train_evaluate import train_model
+from model_evaluate import evaluate_model
+from functools import wraps
+from outils import load_data
+from ml.train_evaluate import train_model
+from model_evaluate import evaluate_model
+>>>>>>> 703de32b154670b2594804bdcf495c41fbe9c7c3:ml/gradien_boost.py
 import mlflow
 import numpy as np
 import pandas as pd
