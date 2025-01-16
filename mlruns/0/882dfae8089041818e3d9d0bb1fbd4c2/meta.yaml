@@ -1,0 +1,15 @@
+artifact_uri: file:///C:/Users/Jose%20Fabian%20Cardona/Desktop/Sas_simplon/plane_pipeline/mlruns/0/882dfae8089041818e3d9d0bb1fbd4c2/artifacts
+end_time: 1736883741203
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: 882dfae8089041818e3d9d0bb1fbd4c2
+run_name: casual-mole-208
+run_uuid: 882dfae8089041818e3d9d0bb1fbd4c2
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1736883717814
+status: 3
+tags: []
+user_id: Jose Fabian Cardona
