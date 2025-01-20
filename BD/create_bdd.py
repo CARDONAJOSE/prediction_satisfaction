@@ -23,29 +23,35 @@ def create_table(conn):
     try:
         cursor = conn.cursor()
 
+        # Create tables
         tables = [
             """
             CREATE TABLE IF NOT EXISTS Customers (
                 customer_id INTEGER PRIMARY KEY AUTOINCREMENT,
-                gender TEXT,
-                customer_type TEXT,
-                age INT
+                Gender_Female INT,
+                Gender_Male INT,
+                Customer_Type_Loyal_Customer INT,
+                Customer_Type_Disloyal_Customer INT,
+                Age INT
             );
             """,
             """
             CREATE TABLE IF NOT EXISTS Flights (
                 flight_id INTEGER PRIMARY KEY AUTOINCREMENT,
-                flight_distance FLOAT,
-                class TEXT
+                Flight_Distance FLOAT,
+                Class_Business INT,
+                Class_Eco INT,
+                Class_Eco_Plus INT
             );
             """,
             """
             CREATE TABLE IF NOT EXISTS Travel (
                 travel_id INTEGER PRIMARY KEY AUTOINCREMENT,
                 customer_id INT,
-                type_of_travel TEXT,
-                departure_delay INT,
-                arrival_delay INT,
+                Type_of_Travel_Business_Travel INT,
+                Type_of_Travel_Personal_Travel INT,
+                Departure_Delay_in_Minutes INT,
+                Arrival_Delay_in_Minutes INT,
                 FOREIGN KEY (customer_id) REFERENCES Customers(customer_id)
             );
             """,
@@ -53,20 +59,20 @@ def create_table(conn):
             CREATE TABLE IF NOT EXISTS Services (
                 service_id INTEGER PRIMARY KEY AUTOINCREMENT,
                 travel_id INT,
-                inflight_wifi_service INT,
-                departure_arrival_time_convenient INT,
-                ease_of_online_booking INT,
-                gate_location INT,
-                food_and_drink INT,
-                online_boarding INT,
-                seat_comfort INT,
-                inflight_entertainment INT,
-                on_board_service INT,
-                leg_room_service INT,
-                baggage_handling INT,
-                checkin_service INT,
-                inflight_service INT,
-                cleanliness INT,
+                Inflight_wifi_service INT,
+                Departure_Arrival_time_convenient INT,
+                Ease_of_Online_booking INT,
+                Gate_location INT,
+                Food_and_drink INT,
+                Online_boarding INT,
+                Seat_comfort INT,
+                Inflight_entertainment INT,
+                On_board_service INT,
+                Leg_room_service INT,
+                Baggage_handling INT,
+                Checkin_service INT,
+                Inflight_service INT,
+                Cleanliness INT,
                 FOREIGN KEY (travel_id) REFERENCES Travel(travel_id)
             );
             """,
@@ -74,12 +80,12 @@ def create_table(conn):
             CREATE TABLE IF NOT EXISTS Satisfaction (
                 satisfaction_id INTEGER PRIMARY KEY AUTOINCREMENT,
                 travel_id INT,
-                satisfaction TEXT,
+                Satisfaction TEXT,
                 FOREIGN KEY (travel_id) REFERENCES Travel(travel_id)
             );
             """
-        ]
-
+        ]    
+        
         for table in tables:
             cursor.execute(table)
 

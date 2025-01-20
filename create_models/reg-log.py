@@ -30,9 +30,9 @@ mlflow.log_params(raport)
 mlflow.log_metric("precision", raport['macro avg']['precision'])
 # Sauvegarde au chemin selon architecture
 save_model_logistic = save_model(model_logistic, './models/lineal_logistic_model.pkl')
+mlflow.sklearn.log_model(model_logistic, "model_logistic")
 
-# Matriz de Confusión   
-print(raport)   
+# Matriz de Confusión     
 
 #Accuracy: 0.839736680012319
 #               precision    recall  f1-score   support
