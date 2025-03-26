@@ -124,10 +124,6 @@ projet-satisfaction-passagers/
 
 ---
 
-## Auteurs
-- José el patron
-- Jules el puma
-- Yann el aguila
 
 ## Actualización de pip
 

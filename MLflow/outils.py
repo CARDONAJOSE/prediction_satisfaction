@@ -1,19 +1,26 @@
 import pandas as pd
 from functools import wraps
 import time
+import os
 
 def load_data():
     """
     Load the data from the clean_data.csv file and return it as a pandas DataFrame.
-
     Returns
     -------
     pd.DataFrame
         The loaded data as a pandas DataFrame.
     """
-    data = pd.read_csv("./data/clean_data.csv")
-    y = data['Satisfaction']
-    x = data[['Class_Business','Seat comfort','Type of Travel_Personal Travel', 'Cleanliness','Online boarding','Class_Eco','Inflight entertainment', 'Type of Travel_Business travel']]    
+    try:
+        current_dir = os.path.dirname(os.path.abspath(__file__))
+        csv_path = os.path.join(os.path.dirname(current_dir), 'data', 'clean_data.csv')
+        data = pd.read_csv(csv_path)
+        y = data['Satisfaction']
+        x = data[['Class_Business','Seat comfort','Type of Travel_Personal Travel', 'Cleanliness','Online boarding','Class_Eco','Inflight entertainment', 'Type of Travel_Business travel']]    
+    
+    except FileNotFoundError:
+        print(f"Error:El archivo no se encuentra en la ruta {csv_path}")
+
     return x, y
 
 # Décorateur pour mesurer le temps d'exécution
@@ -47,7 +54,5 @@ def timer(func):
         return resultat
     return wrapper
 
-if __name__ == "__main__": 
-    x, y = load_data()
-    
-      
+if __name__ == "__main__":
+    main() 
