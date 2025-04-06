@@ -21,47 +21,12 @@ mlflow.set_experiment("improved_satisfaction_prediction")
 # Crear directorio para modelos si no existe
 os.makedirs('prediction_satisfaction/MLflow/models', exist_ok=True)
 
-def save_model_pkl(model, model_name):
-    """Guardar modelo en formato .pkl"""
-    model_path = f'prediction_satisfaction/MLflow/models/{model_name}.pkl'
-    joblib.dump(model, model_path)
-    print(f"Modelo guardado en: {model_path}")
+# def save_model_pkl(model, model_name):
+#     """Guardar modelo en formato .pkl"""
+#     model_path = f'prediction_satisfaction/MLflow/models/{model_name}.pkl'
+#     joblib.dump(model, model_path)
+#     print(f"Modelo guardado en: {model_path}")
 
-# def load_data():
-#     """Cargar datos desde el archivo CSV"""
-#     # Obtener la ruta absoluta del directorio actual
-#     current_dir = os.path.dirname(os.path.abspath(__file__))
-#     # Construir la ruta al archivo CSV
-#     csv_path = os.path.join(os.path.dirname(current_dir), 'data', 'clean_data.csv')
-    
-#     print(f"Cargando datos desde: {csv_path}")
-#     df = pd.read_csv(csv_path)
-    
-#     # Eliminar la columna 'Unnamed: 0' y 'id' si existen
-#     if 'Unnamed: 0' in df.columns:
-#         df = df.drop('Unnamed: 0', axis=1)
-#     if 'id' in df.columns:
-#         df = df.drop('id', axis=1)
-    
-#     # Convertir la columna Satisfaction a numérico
-#     df['Satisfaction'] = df['Satisfaction'].map({'satisfied': 1, 'dissatisfied': 0})
-    
-#     # Verificar y mostrar valores nulos
-#     null_counts = df.isnull().sum()
-#     print("\nValores nulos por columna:")
-#     for col, count in null_counts.items():
-#         if count > 0:
-#             print(f"- {col}: {count} valores nulos")
-    
-#     # Eliminar filas con valores nulos
-#     df = df.dropna()
-    
-#     print(f"\nTamaño del DataFrame después de limpiar: {df.shape}")
-#     print("\nColumnas disponibles:")
-#     for col in df.columns:
-#         print(f"- {col}")
-    
-#     return df
 
 # def preprocess_data(df):
 #     """Preprocesar los datos"""
@@ -134,7 +99,11 @@ def train_and_evaluate_model(model, model_name, X_train, X_test, y_train, y_test
         plt.title(f'Matriz de Confusión - {model_name}')
         plt.ylabel('Valor Real')
         plt.xlabel('Valor Predicho')
-        plt.savefig(f'../src/assets/confusion_matrix_{model_name}.png')
+
+        plots_dir = './models/plots'
+        if not os.path.exists(plots_dir):
+            os.makedirs(plots_dir, exist_ok=True)
+        plt.savefig(f'{plots_dir}/confusion_matrix_{model_name}.png')
         plt.close()
         
         print(f"\nResultados para {model_name}:")
@@ -156,34 +125,34 @@ def main():
     
     # Definir modelos y sus parámetros
     models = {
-        'knn': {
-            'model': KNeighborsClassifier(),
-            'params': {
-                'n_neighbors': [3, 5, 7, 9, 11, 13, 15],
-                'weights': ['uniform', 'distance'],
-                'metric': ['euclidean', 'manhattan']
-            }
-        },
-        'gradient_boost': {
-            'model': GradientBoostingClassifier(),
-            'params': {
-                'n_estimators': [100, 200, 300],
-                'learning_rate': [0.01, 0.1, 0.3],
-                'max_depth': [3, 4, 5],
-                'min_samples_split': [2, 5, 10],
-                'min_samples_leaf': [1, 2, 4]
-            }
-        },
-        'random_forest': {
-            'model': RandomForestClassifier(),
-            'params': {
-                'n_estimators': [100, 200, 300],
-                'max_depth': [10, 20, 30, None],
-                'min_samples_split': [2, 5, 10],
-                'min_samples_leaf': [1, 2, 4]
-            }
+    'knn': {
+        'model': KNeighborsClassifier(),
+        'params': {
+            'n_neighbors': [5, 9, 13],  # Reducido el número de opciones
+            'weights': ['uniform', 'distance'],
+            'metric': ['euclidean']  # Mantenemos solo la métrica más común
+        }
+    },
+    'gradient_boost': {
+        'model': GradientBoostingClassifier(random_state=42),
+        'params': {
+            'n_estimators': [100, 200],  # Quitamos 300 estimadores
+            'learning_rate': [0.1, 0.3],  # Eliminamos la tasa más lenta
+            'max_depth': [3, 5],  # Reducido
+            'min_samples_split': [2, 10],  # Quitamos el valor intermedio
+            'min_samples_leaf': [1, 4]  # Quitamos el valor intermedio
+        }
+    },
+    'random_forest': {
+        'model': RandomForestClassifier(n_jobs=-1, random_state=42),  # Añadimos paralelización
+        'params': {
+            'n_estimators': [100, 200],  # Quitamos 300 estimadores
+            'max_depth': [10, None],  # Reducido
+            'min_samples_split': [2, 10],  # Quitamos el valor intermedio
+            'min_samples_leaf': [1, 4]  # Quitamos el valor intermedio
         }
     }
+}
     
     # Entrenar y evaluar cada modelo
     for name, model_info in models.items():
@@ -196,6 +165,61 @@ def main():
             n_jobs=-1
         )
         train_and_evaluate_model(grid_search, name, X_train, X_test, y_train, y_test)
+# def save_model_pkl(model, model_name):
+#     """Guardar modelo en formato .pkl"""
+#     model_path = f'./src/assets/{model_name}.pkl'
+#     joblib.dump(model, model_path)
+#     print(f"Modelo guardado en: {model_path}")
+
+def save_model_pkl(model, model_name):
+        """
+    Sauvegarde le modèle entraîné dans un fichier .pkl à l'emplacement
+    ./models/nale_model.pkl
+    Parameters:
+        best_model_knn: le modèle entraîné
+    Returns:
+        best_model_knn: le modèle sauvegardé
+    """
+    # Crear directorio si no existe
+        directory = './models/'
+        if not os.path.exists(directory):
+            os.makedirs(directory, exist_ok=True)
+    
+    # Ruta coherente para todos los archivos
+        model_path = os.path.join(directory,f'{model_name}.pkl')
+        saved_model = joblib.dump(model, model_path)
+        print(f"Modelo guardado en: {model_path}")
+        return saved_model
 
 if __name__ == "__main__":
     main() 
+
+    # models = {
+    #     'knn': {
+    #         'model': KNeighborsClassifier(),
+    #         'params': {
+    #             'n_neighbors': [3, 5, 7, 9, 11, 13, 15],
+    #             'weights': ['uniform', 'distance'],
+    #             'metric': ['euclidean', 'manhattan']
+    #         }
+    #     },
+    #     'gradient_boost': {
+    #         'model': GradientBoostingClassifier(),
+    #         'params': {
+    #             'n_estimators': [100, 200, 300],
+    #             'learning_rate': [0.01, 0.1, 0.3],
+    #             'max_depth': [3, 4, 5],
+    #             'min_samples_split': [2, 5, 10],
+    #             'min_samples_leaf': [1, 2, 4]
+    #         }
+    #     },
+    #     'random_forest': {
+    #         'model': RandomForestClassifier(),
+    #         'params': {
+    #             'n_estimators': [100, 200, 300],
+    #             'max_depth': [10, 20, 30, None],
+    #             'min_samples_split': [2, 5, 10],
+    #             'min_samples_leaf': [1, 2, 4]
+    #         }
+    #     }
+    

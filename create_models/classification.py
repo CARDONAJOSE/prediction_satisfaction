@@ -10,9 +10,6 @@ import mlflow
 import sys
 import os
 
-# Ajoute le chemin parent au système
-# sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-
 # charge le dataset
 x, y = load_data()
 
